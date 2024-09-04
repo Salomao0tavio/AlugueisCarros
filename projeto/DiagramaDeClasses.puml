@@ -1,0 +1,114 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam classFontSize 14
+skinparam classFontColor Black
+skinparam shadowing true
+skinparam linetype ortho
+skinparam classBackgroundColor White
+skinparam classBorderColor Black
+skinparam classBorderThickness 1
+skinparam classHeaderBackgroundColor LightGray
+skinparam classHeaderFontColor White
+skinparam classAttributeFontSize 12
+skinparam classAttributeFontColor Black
+skinparam arrowColor Black
+skinparam arrowThickness 1
+skinparam arrowFontSize 13
+skinparam arrowFontColor Black
+skinparam nodesep 50
+skinparam ranksep 50
+title Diagrama de Classes - Sistema de Aluguel de Automóveis
+
+class Usuario {
+  + nome: String
+  + rg: String
+  + cpf: String
+  + endereco: String
+  + profissao: String
+  + rendimentos: List<Rendimento>
+  + void login()
+  + void logout()
+}
+
+class Rendimento {
+  + entidadeEmpregadora: String
+  + valor: double
+}
+
+class Cliente extends Usuario {
+  + pedidos: List<PedidoAluguel>
+  + void introduzirPedido(pedido: PedidoAluguel)
+  + void modificarPedido(pedidoId: int)
+  + void consultarPedido(pedidoId: int)
+  + void cancelarPedido(pedidoId: int)
+}
+
+abstract class Agente extends Usuario {
+  + void modificarPedido(pedido: PedidoAluguel)
+  + void avaliarPedido(pedido: PedidoAluguel)
+}
+
+class PedidoAluguel {
+  + id: int
+  + data: Date
+  + veiculo: Veiculo
+  + cliente: Cliente
+  + contrato: Contrato
+  + status: String
+  + void analisarPedido()
+}
+
+class Veiculo {
+  + matricula: String
+  + ano: int
+  + marca: String
+  + modelo: String
+  + placa: String
+}
+
+class Contrato {
+  + id: int
+  + tipo: String
+  + dataInicio: Date
+  + dataFim: Date
+  + valor: double
+  + agente: Agente
+  + pedido: PedidoAluguel
+}
+
+class Credito extends Contrato {
+  + banco: Banco
+  + valorEmprestado: double
+}
+
+class Banco extends Agente {
+  + void concederCredito(credito: Credito)
+}
+
+class Empresa extends Agente {
+  + void avaliarPedido(pedido: PedidoAluguel)
+}
+
+enum PedidoStatus {
+    PENDENTE
+    APROVADO
+    REJEITADO
+    CANCELADO
+}
+
+enum ContratoTipo {
+    CLIENTE_PROPRIETARIO
+    EMPRESA_PROPRIETARIA
+    BANCO_PROPRIETARIO
+}
+ 
+PedidoAluguel --> Veiculo
+PedidoAluguel --> Contrato 
+PedidoAluguel <--> Cliente 
+Agente --> PedidoAluguel 
+Banco --> Credito 
+Cliente --> Veiculo 
+Banco --> Veiculo 
+Cliente --> Contrato 
+Agente --> Contrato 
+@enduml
