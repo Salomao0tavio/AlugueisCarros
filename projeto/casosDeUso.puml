@@ -1,0 +1,42 @@
+@startuml
+left to right direction
+
+title Diagrama Lógico - Sistema de Aluguel de Automóveis
+
+actor "Cliente" as cliente
+actor "Banco" as banco
+actor "Empresa" as empresa
+
+
+rectangle Sistema {
+    usecase "Introduzir Pedido" as UC1
+    usecase "Modificar Pedido" as UC2
+    usecase "Consultar Pedido" as UC3
+    usecase "Cancelar Pedido" as UC4
+
+    usecase "Modificar Pedido" as UC5
+    usecase "Pedido Avaliado" as UC6
+    usecase "Avaliar Pedido" as UC7
+    usecase "Conceder Crédito" as UC8
+
+
+    cliente -- UC1
+
+    cliente -- UC2
+    cliente -- UC3
+    cliente -- UC4
+
+    UC1 --> UC7
+    
+    banco -- UC6
+    banco -- UC7
+    banco -- UC8
+
+    empresa -- UC6
+    empresa -- UC7
+
+    UC6 -- UC5 
+}
+
+
+@enduml
