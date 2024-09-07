@@ -108,7 +108,7 @@ public class UsuarioService {
         });
     }
 
-   
+
     public static void listUsuarios(QueryUsuarioCallback callback) {
         DatabaseManager.execute((success, connection) -> {
             if (!success) {
