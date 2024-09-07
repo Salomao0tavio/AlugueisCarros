@@ -21,7 +21,7 @@ public class UsuarioService {
         void onResult(boolean success, List<UsuarioModel> usuarios);
     }
 
-    // Adiciona um usuário
+    // Adiciona um novo usuário
     public static void addUsuario(UsuarioModel usuario, UsuarioCallback callback) {
         DatabaseManager.execute((success, connection) -> {
             if (!success) {
@@ -29,15 +29,14 @@ public class UsuarioService {
                 return;
             }
 
-            String sql = "INSERT INTO usuario (idUsuario, nome, rg, cpf, endereco, profissao) VALUES (?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO Usuario (nome, rg, cpf, endereco, profissao) VALUES (?, ?, ?, ?, ?)";
             try (PreparedStatement stmt = connection.prepareStatement(sql)) {
                 connection.setAutoCommit(false);
-                stmt.setString(1, usuario.getIdUsuario());
-                stmt.setString(2, usuario.getNome());
-                stmt.setString(3, usuario.getRg());
-                stmt.setString(4, usuario.getCpf());
-                stmt.setString(5, usuario.getEndereco());
-                stmt.setString(6, usuario.getProfissao());
+                stmt.setString(1, usuario.getNome());
+                stmt.setString(2, usuario.getRg());
+                stmt.setString(3, usuario.getCpf());
+                stmt.setString(4, usuario.getEndereco());
+                stmt.setString(5, usuario.getProfissao());
                 stmt.executeUpdate();
                 connection.commit();
                 callback.onResult(true, "Usuário adicionado com sucesso.");
@@ -58,7 +57,7 @@ public class UsuarioService {
         });
     }
 
-    // Atualiza um usuário
+    // Atualiza um usuário existente
     public static void updateUsuario(UsuarioModel usuario, UsuarioCallback callback) {
         DatabaseManager.execute((success, connection) -> {
             if (!success) {
@@ -66,14 +65,14 @@ public class UsuarioService {
                 return;
             }
 
-            String sql = "UPDATE usuario SET nome = ?, rg = ?, cpf = ?, endereco = ?, profissao = ? WHERE idUsuario = ?";
+            String sql = "UPDATE Usuario SET nome = ?, rg = ?, cpf = ?, endereco = ?, profissao = ? WHERE idUsuario = ?";
             try (PreparedStatement stmt = connection.prepareStatement(sql)) {
                 stmt.setString(1, usuario.getNome());
                 stmt.setString(2, usuario.getRg());
                 stmt.setString(3, usuario.getCpf());
                 stmt.setString(4, usuario.getEndereco());
                 stmt.setString(5, usuario.getProfissao());
-                stmt.setString(6, usuario.getIdUsuario());
+                stmt.setInt(6, Integer.parseInt(usuario.getIdUsuario()));
                 int affectedRows = stmt.executeUpdate();
                 if (affectedRows == 0) {
                     callback.onResult(false, "Nenhum usuário atualizado, possível ID inexistente.");
@@ -94,9 +93,9 @@ public class UsuarioService {
                 return;
             }
 
-            String sql = "DELETE FROM usuario WHERE idUsuario = ?";
+            String sql = "DELETE FROM Usuario WHERE idUsuario = ?";
             try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-                stmt.setString(1, usuarioId);
+                stmt.setInt(1, Integer.parseInt(usuarioId));
                 int affectedRows = stmt.executeUpdate();
                 if (affectedRows == 0) {
                     callback.onResult(false, "Nenhum usuário deletado, possível ID inexistente.");
@@ -109,7 +108,7 @@ public class UsuarioService {
         });
     }
 
-    // Lista todos os usuários
+   
     public static void listUsuarios(QueryUsuarioCallback callback) {
         DatabaseManager.execute((success, connection) -> {
             if (!success) {
@@ -117,13 +116,13 @@ public class UsuarioService {
                 return;
             }
 
-            String sql = "SELECT * FROM usuario";
+            String sql = "SELECT * FROM Usuario";
             try (PreparedStatement stmt = connection.prepareStatement(sql)) {
                 ResultSet rs = stmt.executeQuery();
                 List<UsuarioModel> usuarios = new ArrayList<>(rs.getFetchSize());
                 while (rs.next()) {
                     UsuarioModel usuario = new UsuarioModel();
-                    usuario.setIdUsuario(rs.getString("idUsuario"));
+                    usuario.setIdUsuario(String.valueOf(rs.getInt("idUsuario")));
                     usuario.setNome(rs.getString("nome"));
                     usuario.setRg(rs.getString("rg"));
                     usuario.setCpf(rs.getString("cpf"));
@@ -138,7 +137,7 @@ public class UsuarioService {
         });
     }
 
-    // Obtém um único usuário pelo ID
+
     public static void getUsuario(String usuarioId, QueryUsuarioCallback callback) {
         DatabaseManager.execute((success, connection) -> {
             if (!success) {
@@ -146,14 +145,14 @@ public class UsuarioService {
                 return;
             }
 
-            String sql = "SELECT * FROM usuario WHERE idUsuario = ?";
+            String sql = "SELECT * FROM Usuario WHERE idUsuario = ?";
             try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-                stmt.setString(1, usuarioId);
+                stmt.setInt(1, Integer.parseInt(usuarioId));
                 ResultSet rs = stmt.executeQuery();
                 List<UsuarioModel> usuarios = new ArrayList<>();
                 if (rs.next()) {
                     UsuarioModel usuario = new UsuarioModel();
-                    usuario.setIdUsuario(rs.getString("idUsuario"));
+                    usuario.setIdUsuario(String.valueOf(rs.getInt("idUsuario")));
                     usuario.setNome(rs.getString("nome"));
                     usuario.setRg(rs.getString("rg"));
                     usuario.setCpf(rs.getString("cpf"));
