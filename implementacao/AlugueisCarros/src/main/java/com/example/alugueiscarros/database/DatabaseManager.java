@@ -5,9 +5,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseManager {
-    private static final String URL = null; //trocar isso aqui pela url do banco
+    private static final String URL = "jdbc:mariadb://localhost:3306/sistema_aluguel?user=root&password=nova_senha";
     private static final String USER = "root";
-    private static final String PASSWORD = "toor";
+    private static final String PASSWORD = "nova_senha";
 
     private static Connection openConnection() throws SQLException {
         return DriverManager.getConnection(URL, USER, PASSWORD);

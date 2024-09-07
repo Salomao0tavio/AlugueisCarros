@@ -1,9 +1,7 @@
 package com.example.alugueiscarros.services;
 
-
 import com.example.alugueiscarros.database.DatabaseManager;
-import com.example.alugueiscarros.models.*;
-import com.example.alugueiscarros.services.*;
+import com.example.alugueiscarros.models.UsuarioModel;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,24 +21,24 @@ public class UsuarioService {
         void onResult(boolean success, List<UsuarioModel> usuarios);
     }
 
+    // Adiciona um usuário
     public static void addUsuario(UsuarioModel usuario, UsuarioCallback callback) {
         DatabaseManager.execute((success, connection) -> {
             if (!success) {
                 callback.onResult(false, "Falha ao conectar ao banco de dados.");
+                return;
             }
 
-            try {
+            String sql = "INSERT INTO usuario (idUsuario, nome, rg, cpf, endereco, profissao) VALUES (?, ?, ?, ?, ?, ?)";
+            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
                 connection.setAutoCommit(false);
-                String sql = "INSERT INTO usuario (idUsuario, nome, rg, cpf, endereco, profissao) VALUES (?, ?, ?, ?, ?, ?)";
-                try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-                    stmt.setString(1, usuario.getIdUsuario());
-                    stmt.setString(2, usuario.getNome());
-                    stmt.setString(3, usuario.getRg());
-                    stmt.setString(4, usuario.getCpf());
-                    stmt.setString(5, usuario.getEndereco());
-                    stmt.setString(6, usuario.getProfissao());
-                    stmt.executeUpdate();
-                }
+                stmt.setString(1, usuario.getIdUsuario());
+                stmt.setString(2, usuario.getNome());
+                stmt.setString(3, usuario.getRg());
+                stmt.setString(4, usuario.getCpf());
+                stmt.setString(5, usuario.getEndereco());
+                stmt.setString(6, usuario.getProfissao());
+                stmt.executeUpdate();
                 connection.commit();
                 callback.onResult(true, "Usuário adicionado com sucesso.");
             } catch (SQLException e) {
@@ -60,10 +58,12 @@ public class UsuarioService {
         });
     }
 
+    // Atualiza um usuário
     public static void updateUsuario(UsuarioModel usuario, UsuarioCallback callback) {
         DatabaseManager.execute((success, connection) -> {
             if (!success) {
                 callback.onResult(false, "Falha ao conectar ao banco de dados.");
+                return;
             }
 
             String sql = "UPDATE usuario SET nome = ?, rg = ?, cpf = ?, endereco = ?, profissao = ? WHERE idUsuario = ?";
@@ -86,11 +86,14 @@ public class UsuarioService {
         });
     }
 
+    // Deleta um usuário
     public static void deleteUsuario(String usuarioId, UsuarioCallback callback) {
         DatabaseManager.execute((success, connection) -> {
             if (!success) {
                 callback.onResult(false, "Falha ao conectar ao banco de dados.");
+                return;
             }
+
             String sql = "DELETE FROM usuario WHERE idUsuario = ?";
             try (PreparedStatement stmt = connection.prepareStatement(sql)) {
                 stmt.setString(1, usuarioId);
@@ -106,16 +109,49 @@ public class UsuarioService {
         });
     }
 
+    // Lista todos os usuários
     public static void listUsuarios(QueryUsuarioCallback callback) {
         DatabaseManager.execute((success, connection) -> {
             if (!success) {
                 callback.onResult(false, null);
+                return;
             }
+
             String sql = "SELECT * FROM usuario";
             try (PreparedStatement stmt = connection.prepareStatement(sql)) {
                 ResultSet rs = stmt.executeQuery();
                 List<UsuarioModel> usuarios = new ArrayList<>(rs.getFetchSize());
                 while (rs.next()) {
+                    UsuarioModel usuario = new UsuarioModel();
+                    usuario.setIdUsuario(rs.getString("idUsuario"));
+                    usuario.setNome(rs.getString("nome"));
+                    usuario.setRg(rs.getString("rg"));
+                    usuario.setCpf(rs.getString("cpf"));
+                    usuario.setEndereco(rs.getString("endereco"));
+                    usuario.setProfissao(rs.getString("profissao"));
+                    usuarios.add(usuario);
+                }
+                callback.onResult(true, usuarios);
+            } catch (SQLException e) {
+                callback.onResult(false, null);
+            }
+        });
+    }
+
+    // Obtém um único usuário pelo ID
+    public static void getUsuario(String usuarioId, QueryUsuarioCallback callback) {
+        DatabaseManager.execute((success, connection) -> {
+            if (!success) {
+                callback.onResult(false, null);
+                return;
+            }
+
+            String sql = "SELECT * FROM usuario WHERE idUsuario = ?";
+            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+                stmt.setString(1, usuarioId);
+                ResultSet rs = stmt.executeQuery();
+                List<UsuarioModel> usuarios = new ArrayList<>();
+                if (rs.next()) {
                     UsuarioModel usuario = new UsuarioModel();
                     usuario.setIdUsuario(rs.getString("idUsuario"));
                     usuario.setNome(rs.getString("nome"));
