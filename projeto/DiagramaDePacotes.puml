@@ -1,0 +1,20 @@
+@startuml
+
+package "BusinessLayer" {
+    class Pedido
+    class Automovel
+    class Contrato
+    class Usuario
+
+    Usuario --> Pedido 
+    Pedido --> Automovel 
+    Pedido --> Contrato 
+}
+
+package "Persistence" {
+    class DatabaseManager
+}
+
+BusinessLayer --> Persistence : <<uses>>
+
+@enduml
