@@ -43,7 +43,7 @@ class Cliente extends Usuario {
   + void cancelarPedido(pedidoId: int)
 }
 
-abstract class Agente extends Usuario {
+abstract class Agente  {
   + void modificarPedido(pedido: PedidoAluguel)
   + void avaliarPedido(pedido: PedidoAluguel)
 }
@@ -81,11 +81,11 @@ class Credito extends Contrato {
   + valorEmprestado: double
 }
 
-class Banco extends Agente {
+class Banco  {
   + void concederCredito(credito: Credito)
 }
 
-class Empresa extends Agente {
+class Empresa  {
   + void avaliarPedido(pedido: PedidoAluguel)
 }
 
