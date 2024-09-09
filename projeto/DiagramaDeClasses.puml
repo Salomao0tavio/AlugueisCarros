@@ -17,77 +17,6 @@ skinparam arrowFontSize 13
 skinparam arrowFontColor Black
 skinparam nodesep 50
 skinparam ranksep 50
-title Diagrama de Classes - Sistema de Aluguel de Automóveis
-
-class Usuario {
-  + nome: String
-  + rg: String
-  + cpf: String
-  + endereco: String
-  + profissao: String
-  + rendimentos: List<Rendimento>
-  + void login()
-  + void logout()
-}
-
-class Rendimento {
-  + entidadeEmpregadora: String
-  + valor: double
-}
-
-class Cliente extends Usuario {
-  + pedidos: List<PedidoAluguel>
-  + void introduzirPedido(pedido: PedidoAluguel)
-  + void modificarPedido(pedidoId: int)
-  + void consultarPedido(pedidoId: int)
-  + void cancelarPedido(pedidoId: int)
-}
-
-abstract class Agente  {
-  + void modificarPedido(pedido: PedidoAluguel)
-  + void avaliarPedido(pedido: PedidoAluguel)
-}
-
-class PedidoAluguel {
-  + id: int
-  + data: Date
-  + veiculo: Veiculo
-  + cliente: Cliente
-  + contrato: Contrato
-  + status: String
-  + void analisarPedido()
-}
-
-class Veiculo {
-  + matricula: String
-  + ano: int
-  + marca: String
-  + modelo: String
-  + placa: String
-}
-
-class Contrato {
-  + id: int
-  + tipo: String
-  + dataInicio: Date
-  + dataFim: Date
-  + valor: double
-  + agente: Agente
-  + pedido: PedidoAluguel
-}
-
-class Credito extends Contrato {
-  + banco: Banco
-  + valorEmprestado: double
-}
-
-class Banco  {
-  + void concederCredito(credito: Credito)
-}
-
-class Empresa  {
-  + void avaliarPedido(pedido: PedidoAluguel)
-}
 
 enum PedidoStatus {
     PENDENTE
@@ -95,20 +24,89 @@ enum PedidoStatus {
     REJEITADO
     CANCELADO
 }
-
+enum TipoParecer {
+POSITIVO,
+NEGATIVO,
+AVALIANDO
+}
+enum TipoAgente{
+    BANCO,
+    EMPRESA
+}
 enum ContratoTipo {
     CLIENTE_PROPRIETARIO
     EMPRESA_PROPRIETARIA
     BANCO_PROPRIETARIO
 }
- 
-PedidoAluguel --> Veiculo
-PedidoAluguel --> Contrato 
-PedidoAluguel <--> Cliente 
-Agente --> PedidoAluguel 
-Banco --> Credito 
-Cliente --> Veiculo 
-Banco --> Veiculo 
-Cliente --> Contrato 
-Agente --> Contrato 
+
+abstract class Agente implements Usuario{
+  -Nome : String
+  -Tipo : TipoAgente
+  +avaliarPedido(pedido: Pedido) : Boolean
+  +modificarPedido(pedido: Pedido) : void
+}
+
+class Banco extends Agente{
+  +liberarCredito(): void
+}
+abstract class Usuario {
++login(email: String, senha: String)
++registrar (email:String ,senha: String)
+}
+class Cliente implements Usuario{
+  -RG : String
+  -CPF : String
+  -Nome : String
+  -Endereco : String
+  -Profissao : String
+  -entidadesEmpregadoras : List<String>
+  -rendimentos : List<Double>
+  +fazerPedido() : void
+  +introduzirPedido(automovel: Automovel) : void
+  +modificarPedido(pedido: Pedido) : void
+  +consultarPedido(id: int) : Pedido
+  +cancelarPedido(id: int) : void
+}
+
+
+class Automovel {
+  -Matricula : String
+  -Ano : int
+  -Marca : String
+  -Modelo : String
+  -Placa : String
+  +introduzirVeiculo() : void
+  +modificarVeiculo(veiculo: Veiculo) : void
+  +consultarVeiculo(id: int) : Veiculo
+  +cancelarVeiculo(id: int) : void
+}
+
+class Pedido {
+  -ID : int
+  -Data : Date
+  -Status : String
+  -CreditoAssociado : Boolean
+  -Cliente : Cliente
+  -Automovel : Automovel
+  +adicionarAutomovel(automovel: Automovel) : void
+  +cancelar() : void
+}
+
+class Contrato {
+  -ID : int
+  -DataInicio : Date
+  -DataFim : Date
+  -Pedido : Pedido
+  -Agente : Agente
+  -TipoContrato : TipoContrato
+  -ParecerFinanceiro : TipoParecer
+  +gerar() : void
+  +executarContrato(pedido: Pedido, agente: Agente) : void
+  +gerarContrato(pedido: Pedido, agente: Agente) : Contrato
+}
+
+Cliente "1" --> "*" Pedido
+Pedido "1" --> "1" Automovel
+Pedido "1" --> "*" Contrato
+Contrato "1" --> "1" Agente
 @enduml
