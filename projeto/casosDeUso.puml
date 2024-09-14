@@ -13,11 +13,12 @@ rectangle Sistema {
     usecase "Modificar Pedido" as UC2
     usecase "Consultar Pedido" as UC3
     usecase "Cancelar Pedido" as UC4
+    usecase "Mandar Pedido para Avaliação" as UC9
 
     usecase "Modificar Pedido" as UC5
-    usecase "Pedido Avaliado" as UC6
     usecase "Avaliar Pedido" as UC7
     usecase "Conceder Crédito" as UC8
+    usecase "Criar Contrato" as UC10
 
 
     cliente -- UC1
@@ -25,17 +26,17 @@ rectangle Sistema {
     cliente -- UC2
     cliente -- UC3
     cliente -- UC4
-
-    UC1 --> UC7
+    cliente -- UC9
     
-    banco -- UC6
-    banco -- UC7
     banco -- UC8
 
-    empresa -- UC6
+    empresa -- UC5
     empresa -- UC7
 
-    UC6 -- UC5 
+    UC7 .> UC10 :<<include>>
+
+    empresa <|-- banco
+
 }
 
 
