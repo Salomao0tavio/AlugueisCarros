@@ -25,88 +25,92 @@ enum PedidoStatus {
     CANCELADO
 }
 enum TipoParecer {
-POSITIVO,
-NEGATIVO,
-AVALIANDO
+    POSITIVO
+    NEGATIVO
+    AVALIANDO
 }
-enum TipoAgente{
-    BANCO,
-    EMPRESA
-}
+
 enum ContratoTipo {
     CLIENTE_PROPRIETARIO
     EMPRESA_PROPRIETARIA
     BANCO_PROPRIETARIO
 }
 
-abstract class Agente implements Usuario{
-  -Nome : String
-  -Tipo : TipoAgente
-  +avaliarPedido(pedido: Pedido) : Boolean
-  +modificarPedido(pedido: Pedido) : void
-}
-
-class Banco extends Agente{
-  +liberarCredito(): void
-}
 abstract class Usuario {
-+login(email: String, senha: String)
-+registrar (email:String ,senha: String)
-}
-class Cliente implements Usuario{
-  -RG : String
-  -CPF : String
-  -Nome : String
-  -Endereco : String
-  -Profissao : String
-  -entidadesEmpregadoras : List<String>
-  -rendimentos : List<Double>
-  +fazerPedido() : void
-  +introduzirPedido(automovel: Automovel) : void
-  +modificarPedido(pedido: Pedido) : void
-  +consultarPedido(id: int) : Pedido
-  +cancelarPedido(id: int) : void
+    +login(email: String, senha: String)
+    +registrar(email: String, senha: String)
 }
 
+class Cliente implements Usuario {
+    -RG : String
+    -CPF : String
+    -Nome : String
+    -Endereco : String
+    -Profissao : String
+    -entidadesEmpregadoras : List<String>
+    -rendimentos : List<Double>
+    +fazerPedido() : void
+    +introduzirPedido(automovel: Automovel) : void
+    +modificarPedido(pedido: Pedido) : void
+    +consultarPedido(id: int) : Pedido
+    +cancelarPedido(id: int) : void
+}
 
 class Automovel {
-  -Matricula : String
-  -Ano : int
-  -Marca : String
-  -Modelo : String
-  -Placa : String
-  +introduzirVeiculo() : void
-  +modificarVeiculo(veiculo: Veiculo) : void
-  +consultarVeiculo(id: int) : Veiculo
-  +cancelarVeiculo(id: int) : void
+    -Matricula : String
+    -Ano : int
+    -Marca : String
+    -Modelo : String
+    -Placa : String
+    +introduzirVeiculo() : void
+    +modificarVeiculo(veiculo: Veiculo) : void
+    +consultarVeiculo(id: int) : Veiculo
+    +cancelarVeiculo(id: int) : void
 }
 
 class Pedido {
-  -ID : int
-  -Data : Date
-  -Status : String
-  -CreditoAssociado : Boolean
-  -Cliente : Cliente
-  -Automovel : Automovel
-  +adicionarAutomovel(automovel: Automovel) : void
-  +cancelar() : void
+    -ID : int
+    -Data : Date
+    -Status : PedidoStatus
+    -CreditoAssociado : Boolean
+    -Cliente : Cliente
+    -Automovel : Automovel
+    +adicionarAutomovel(automovel: Automovel) : void
+    +cancelar() : void
 }
 
 class Contrato {
-  -ID : int
-  -DataInicio : Date
-  -DataFim : Date
-  -Pedido : Pedido
-  -Agente : Agente
-  -TipoContrato : TipoContrato
-  -ParecerFinanceiro : TipoParecer
-  +gerar() : void
-  +executarContrato(pedido: Pedido, agente: Agente) : void
-  +gerarContrato(pedido: Pedido, agente: Agente) : Contrato
+    -ID : int
+    -DataInicio : Date
+    -DataFim : Date
+    -Pedido : Pedido
+    -Agente : Agente
+    -TipoContrato : ContratoTipo
+    -ParecerFinanceiro : TipoParecer
+    +gerar() : void
+    +executarContrato(pedido: Pedido, agente: Agente) : void
+    +gerarContrato(pedido: Pedido, agente: Agente) : Contrato
+}
+ class Agente implements Usuario {
+    -Nome : String
+    +consultarBanco() : void
+    +avaliarPedido(pedido: Pedido) : Boolean
+    +modificarPedido(pedido: Pedido) : void
+
 }
 
+class Banco {
+    -Nome : String
+    +liberarCredito() : void
+}
+
+TipoParecer --- Contrato
+PedidoStatus --- Pedido
+ContratoTipo --- Contrato
 Cliente "1" --> "*" Pedido
 Pedido "1" --> "1" Automovel
 Pedido "1" --> "*" Contrato
 Contrato "1" --> "1" Agente
+Agente "1" --> "1" Banco : consulta
+
 @enduml
