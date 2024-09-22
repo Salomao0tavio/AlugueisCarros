@@ -10,41 +10,36 @@ public class Cliente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false)
     private String rg;
 
-    @Column(nullable = false, length = 14)
+    @Column(nullable = false)
     private String cpf;
 
-    @Column(nullable = false, length = 255)
+    @Column(nullable = false)
     private String nome;
 
-    @Column(length = 255)
+    @Column(nullable = false)
     private String endereco;
 
-    @Column(length = 100)
+    @Column(nullable = false)
     private String profissao;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false)
     private String login;
 
-    @Column(nullable = false, length = 255)
+    @Column(nullable = false)
     private String senha;
 
-    public Cliente() {
-    }
+    // Novo campo - Entidade empregadora como uma string
+    @Column(name = "entidade_empregadora")
+    private String entidadeEmpregadora;
 
-    public Cliente(String rg, String cpf, String nome, String endereco, String profissao, String login, String senha) {
-        this.rg = rg;
-        this.cpf = cpf;
-        this.nome = nome;
-        this.endereco = endereco;
-        this.profissao = profissao;
-        this.login = login;
-        this.senha = senha;
-    }
+    // Novo campo - Rendimento (salário)
+    @Column(name = "rendimento")
+    private double rendimento;
 
-    // Getters and Setters
+    // Getters e Setters
 
     public Integer getId() {
         return id;
@@ -108,5 +103,21 @@ public class Cliente {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public String getEntidadeEmpregadora() {
+        return entidadeEmpregadora;
+    }
+
+    public void setEntidadeEmpregadora(String entidadeEmpregadora) {
+        this.entidadeEmpregadora = entidadeEmpregadora;
+    }
+
+    public double getRendimento() {
+        return rendimento;
+    }
+
+    public void setRendimento(double rendimento) {
+        this.rendimento = rendimento;
     }
 }
