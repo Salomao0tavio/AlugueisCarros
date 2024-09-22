@@ -1,0 +1,32 @@
+@startuml
+left to right direction
+
+' Definição dos componentes
+component "Navegador Web" as navegador
+component "API LAYER" as servico_central
+
+component "Serviço de Clientes" as servico_clientes
+component "Serviço de Pedidos" as servico_pedidos
+component "Serviço de Contratos" as servico_contratos
+component "Serviço de Automóveis" as servico_automoveis
+component "Serviço de Agentes" as servico_agentes
+
+database "Banco de Dados " as banco_dados
+
+' Conexões entre componentes
+navegador --> servico_central : HTTP/HTTPS
+
+servico_central --> servico_clientes : HTTP/HTTPS
+servico_central --> servico_pedidos : HTTP/HTTPS
+servico_central --> servico_contratos : HTTP/HTTPS
+servico_central --> servico_automoveis : HTTP/HTTPS
+servico_central --> servico_agentes : HTTP/HTTPS
+
+' Comunicação dos serviços com o banco de dados via TCP/IP
+servico_clientes --> banco_dados : TCP/IP
+servico_pedidos --> banco_dados : TCP/IP
+servico_contratos --> banco_dados : TCP/IP
+servico_automoveis --> banco_dados : TCP/IP
+servico_agentes --> banco_dados : TCP/IP
+
+@enduml
