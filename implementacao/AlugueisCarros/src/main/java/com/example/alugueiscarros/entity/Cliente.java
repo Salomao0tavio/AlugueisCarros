@@ -2,6 +2,9 @@ package com.example.alugueiscarros.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "cliente")
 public class Cliente {
@@ -38,6 +41,9 @@ public class Cliente {
     // Novo campo - Rendimento (salário)
     @Column(name = "rendimento")
     private double rendimento;
+
+    @OneToMany(mappedBy = "cliente")
+    private List<Pedido> pedido = new ArrayList<>();
 
     // Getters e Setters
 
