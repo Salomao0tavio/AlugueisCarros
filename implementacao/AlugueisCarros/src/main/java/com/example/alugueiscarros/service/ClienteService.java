@@ -20,7 +20,7 @@ public class ClienteService {
 
 
     public Cliente adicionarCliente(Cliente cliente) {
-        cliente.setSenha(passwordEncoder.encode(cliente.getSenha()));  // Criptografa a senha
+        cliente.setSenha(passwordEncoder.encode(cliente.getSenha()));
         return clienteRepository.save(cliente);
     }
 
@@ -44,14 +44,14 @@ public class ClienteService {
             cliente.setProfissao(clienteAtualizado.getProfissao());
             cliente.setLogin(clienteAtualizado.getLogin());
 
-
-            if (!clienteAtualizado.getSenha().equals(cliente.getSenha())) {
-                cliente.setSenha(passwordEncoder.encode(clienteAtualizado.getSenha()));
-            }
+            // Adicione tratamento para entidadesEmpregadoras e rendimento
+            cliente.setEntidadeEmpregadora(clienteAtualizado.getEntidadeEmpregadora() != null ? clienteAtualizado.getEntidadeEmpregadora() : "Não informado");
+            cliente.setRendimento(clienteAtualizado.getRendimento() != null ? clienteAtualizado.getRendimento() : 0.0);
 
             return clienteRepository.save(cliente);
         }).orElseThrow(() -> new RuntimeException("Cliente não encontrado com id: " + id));
     }
+
 
 
     public void deletarCliente(Integer id) {

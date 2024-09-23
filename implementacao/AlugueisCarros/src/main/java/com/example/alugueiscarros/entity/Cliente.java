@@ -31,13 +31,13 @@ public class Cliente {
     @Column(nullable = false)
     private String senha;
 
-    // Novo campo - Entidade empregadora como uma string
-    @Column(name = "entidade_empregadora")
+
+    @Column(name = "entidade_empregadora", nullable = true)
     private String entidadeEmpregadora;
 
-    // Novo campo - Rendimento (salário)
-    @Column(name = "rendimento")
-    private double rendimento;
+
+    @Column(name = "rendimento", nullable = true)
+    private Double rendimento;
 
     // Getters e Setters
 
@@ -113,7 +113,7 @@ public class Cliente {
         this.entidadeEmpregadora = entidadeEmpregadora;
     }
 
-    public double getRendimento() {
+    public Double getRendimento() {
         return rendimento;
     }
 
