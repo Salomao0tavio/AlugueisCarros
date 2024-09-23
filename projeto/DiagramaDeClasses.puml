@@ -36,12 +36,8 @@ enum ContratoTipo {
     BANCO_PROPRIETARIO
 }
 
-abstract class Usuario {
-    +login(email: String, senha: String)
-    +registrar(email: String, senha: String)
-}
 
-class Cliente implements Usuario {
+class Cliente  {
     -RG : String
     -CPF : String
     -Nome : String
@@ -49,6 +45,9 @@ class Cliente implements Usuario {
     -Profissao : String
     -entidadesEmpregadoras : List<String>
     -rendimentos : List<Double>
+    -Login : String
+    -Senha : String
+    +FazerLoginCliente (login , senha):Boolean
     +fazerPedido() : void
     +introduzirPedido(automovel: Automovel) : void
     +modificarPedido(pedido: Pedido) : void
@@ -91,8 +90,11 @@ class Contrato {
     +executarContrato(pedido: Pedido, agente: Agente) : void
     +gerarContrato(pedido: Pedido, agente: Agente) : Contrato
 }
- class Agente implements Usuario {
+ class Agente  {
     -Nome : String
+    -Login : String
+    -Senha : String
+    +FazerLoginAgente (login , senha):Boolean
     +consultarBanco() : void
     +avaliarPedido(pedido: Pedido) : Boolean
     +modificarPedido(pedido: Pedido) : void
@@ -101,6 +103,9 @@ class Contrato {
 
 class Banco {
     -Nome : String
+    -Login : String
+    -Senha : String
+    +FazerLoginBanco (login , senha):Boolean
     +liberarCredito() : void
 }
 
