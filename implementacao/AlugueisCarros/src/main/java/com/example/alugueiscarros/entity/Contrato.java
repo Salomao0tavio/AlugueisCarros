@@ -1,5 +1,7 @@
 package com.example.alugueiscarros.entity;
 
+import com.example.alugueiscarros.enums.ContratoTipo;
+import com.example.alugueiscarros.enums.TipoParecer;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,12 +31,12 @@ public class Contrato {
 
     /*@OneToOne
     @JoinColumn(name = "agente_id")
-    private Agente agente;
+    private Agente agente;*/
 
     @Column(nullable = false)
     private ContratoTipo contratoTipo;
 
     @Column(nullable = false)
-    private TipoParecer tipoParecer;*/
+    private TipoParecer tipoParecer;
 
 }

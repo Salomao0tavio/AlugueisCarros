@@ -1,5 +1,6 @@
 package com.example.alugueiscarros.entity;
 
+import com.example.alugueiscarros.enums.PedidoStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,13 +24,12 @@ public class Pedido {
     @Column(nullable = false)
     private LocalDateTime data;
 
-    //@Column(nullable = false)
-    //private PedidoStatus status;
+    @Column(nullable = false)
+    private PedidoStatus status;
 
     @Column(nullable = false)
     private Boolean creditoAssociado;
 
-    @Column(nullable = false)
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
