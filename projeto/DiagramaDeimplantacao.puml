@@ -1,0 +1,32 @@
+
+@startuml
+left to right direction
+
+' Definição dos dispositivos
+node "Cliente: Navegador" as cliente {
+    component "Cliente" as 1
+    component "Agente" as agente
+    component "Banco" as banco1
+}
+
+node "Servidor de Aplicação" as servidor {
+    component "Controller" as controller
+    component "Service" as service
+    component "Repository" as repository
+}
+
+node "Banco de Dados" as banco {
+    component "SGBD" as sgbd
+    component "Persistência" as persistencia
+}
+
+'
+cliente --> servidor : HTTP
+servidor --> banco : TCP/IP
+
+controller --> service : Chamadas Internas
+service --> repository : Chamadas Internas
+
+persistencia --> sgbd : Operações Internas
+
+@enduml
