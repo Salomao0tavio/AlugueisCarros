@@ -31,7 +31,7 @@ public class BancoController {
     }
 
     @PutMapping("/liberarCredito/{contratoId}")
-    public ResponseEntity<String> liberarCredito(@PathVariable Long contratoId, @RequestParam TipoParecer parecer) {
+    public ResponseEntity<String> liberarCredito(@PathVariable int contratoId, @RequestParam TipoParecer parecer) {
         bancoService.liberarCredito(contratoId, parecer);
         return ResponseEntity.ok("Parecer financeiro atualizado para: " + parecer);
     }

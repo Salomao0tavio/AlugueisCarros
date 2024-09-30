@@ -1,7 +1,9 @@
 package com.example.alugueiscarros.controller;
 
 import com.example.alugueiscarros.entity.Agente;
-import com.example.alugueiscarros.entity.Cliente;
+import com.example.alugueiscarros.entity.Banco;
+import com.example.alugueiscarros.entity.Pedido;
+import com.example.alugueiscarros.enums.PedidoStatus;
 import com.example.alugueiscarros.service.AgenteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -42,5 +44,22 @@ public class AgenteController {
     public ResponseEntity<Agente> login(@RequestParam String login, @RequestParam String senha) {
         Agente agente = agenteService.login(login, senha);
         return ResponseEntity.ok(agente);
+    }
+    @GetMapping("/{id}/banco/{bancoId}")
+    public ResponseEntity<Banco> consultarBanco(@PathVariable Long id, @PathVariable Long bancoId) {
+        Banco banco = agenteService.consultarBanco(bancoId);
+        return ResponseEntity.ok(banco);
+    }
+
+    @PostMapping("/{id}/avaliarPedido")
+    public ResponseEntity<Boolean> avaliarPedido(@PathVariable Long id, @RequestBody Pedido pedido) {
+        boolean aprovado = agenteService.avaliarPedido(pedido);
+        return ResponseEntity.ok(aprovado);
+    }
+
+    @PutMapping("/{id}/modificarPedido/{pedidoId}")
+    public ResponseEntity<Void> modificarPedido(@PathVariable Long id, @PathVariable int pedidoId, @RequestParam PedidoStatus status) {
+        agenteService.modificarPedido(pedidoId, status);
+        return ResponseEntity.noContent().build();
     }
 }

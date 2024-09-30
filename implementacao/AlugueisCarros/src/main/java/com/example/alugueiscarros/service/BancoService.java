@@ -33,10 +33,10 @@ public class BancoService {
         return banco.getSenha().equals(senha);
     }
 
-    public void liberarCredito(Long contratoId, TipoParecer parecer) {
+    public void liberarCredito(int contratoId, TipoParecer parecer) {
         Contrato contrato = contratoRepository.findById(contratoId)
                 .orElseThrow(() -> new EntityNotFoundException("Contrato não encontrado"));
-        contrato.setParecerFinanceiro(parecer);
+        contrato.setTipoParecer(parecer);
         contratoRepository.save(contrato);
     }
 }
