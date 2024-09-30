@@ -3,6 +3,7 @@ package com.example.alugueiscarros.controller;
 import com.example.alugueiscarros.entity.Cliente;
 import com.example.alugueiscarros.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,5 +45,17 @@ public class ClienteController {
     public ResponseEntity<Void> deletarCliente(@PathVariable Integer id) {
         clienteService.deletarCliente(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/registrar")
+    public ResponseEntity<Cliente> registrar(@RequestBody Cliente cliente) {
+        Cliente novoCliente = clienteService.registrar(cliente);
+        return ResponseEntity.status(HttpStatus.CREATED).body(novoCliente);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<Cliente> login(@RequestParam String login, @RequestParam String senha) {
+        Cliente cliente = clienteService.login(login, senha);
+        return ResponseEntity.ok(cliente);
     }
 }

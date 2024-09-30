@@ -35,7 +35,9 @@ public class Pedido {
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
-    //private Automovel automovel;
+    @OneToOne
+    @JoinColumn(name = "automovel_id")
+    private Automovel automovel;
 
 
 }

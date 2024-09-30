@@ -29,7 +29,7 @@ public class Contrato {
     @JoinColumn(name = "pedido_id")
     private Pedido pedido;
 
-    /*@OneToOne
+    @OneToOne
     @JoinColumn(name = "agente_id")
     private Agente agente;*/
 

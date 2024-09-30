@@ -2,6 +2,7 @@ package com.example.alugueiscarros.service;
 
 import com.example.alugueiscarros.entity.Cliente;
 import com.example.alugueiscarros.repository.ClienteRepository;
+import com.example.alugueiscarros.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ClienteService {
+public class ClienteService extends UsuarioService<Cliente> {
 
     @Autowired
     private ClienteRepository clienteRepository;
@@ -23,7 +24,6 @@ public class ClienteService {
         cliente.setSenha(passwordEncoder.encode(cliente.getSenha()));
         return clienteRepository.save(cliente);
     }
-
 
     public Optional<Cliente> obterClientePorId(Integer id) {
         return clienteRepository.findById(id);
