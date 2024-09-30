@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "contrato")
@@ -21,9 +21,9 @@ public class Contrato {
     private Integer id;
 
     @Column(nullable = false)
-    private LocalDateTime dataInicio;
+    private LocalDate dataInicio;
 
-    private LocalDateTime dataFim;
+    private LocalDate dataFim;
 
     @ManyToOne
     @JoinColumn(name = "pedido_id")
@@ -31,11 +31,13 @@ public class Contrato {
 
     @OneToOne
     @JoinColumn(name = "agente_id")
-    private Agente agente;
+    private Agente agente;*/
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ContratoTipo contratoTipo;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private TipoParecer tipoParecer;
 
