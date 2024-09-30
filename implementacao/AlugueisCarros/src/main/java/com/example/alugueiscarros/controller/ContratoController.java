@@ -43,8 +43,14 @@ public class ContratoController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Contrato> atualizarContrato(@PathVariable Integer id, @RequestBody Contrato contratoAtualizado) {
-        Contrato cliente = contratoService.atualizarContrato(id, contratoAtualizado);
-        return ResponseEntity.ok(cliente);
+        Contrato contrato = contratoService.atualizarContrato(id, contratoAtualizado);
+        return ResponseEntity.ok(contrato);
+    }
+
+    @PutMapping("/executarContrato/{id}")
+    public ResponseEntity<Contrato> executarContrato(@PathVariable Integer id) {
+        Contrato contrato = contratoService.executarContrato(id);
+        return ResponseEntity.ok(contrato);
     }
 
     @DeleteMapping("/{id}")

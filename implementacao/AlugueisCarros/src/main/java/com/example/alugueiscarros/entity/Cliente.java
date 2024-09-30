@@ -42,8 +42,6 @@ public class Cliente {
     @Column(name = "rendimento", nullable = true)
     private Double rendimento;
 
-    /*@OneToMany(mappedBy = "cliente")
-    private List<Pedido> pedido = new ArrayList<>();*/
 
     // Getters e Setters
 

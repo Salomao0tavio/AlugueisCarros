@@ -30,9 +30,9 @@ public class PedidoService {
     }
 
     public Pedido atualizarPedido(Integer id, Pedido pedidoAtualizado) {
+        System.out.println(pedidoAtualizado);
         return pedidoRepository.findById(id).map(pedido -> {
             pedido.setCliente(pedidoAtualizado.getCliente());
-            pedido.setContrato(pedidoAtualizado.getContrato());
             pedido.setData(pedidoAtualizado.getData());
             pedido.setStatus(pedidoAtualizado.getStatus());
             pedido.setCreditoAssociado(pedidoAtualizado.getCreditoAssociado());

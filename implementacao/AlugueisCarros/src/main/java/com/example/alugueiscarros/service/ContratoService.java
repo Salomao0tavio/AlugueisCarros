@@ -2,6 +2,7 @@ package com.example.alugueiscarros.service;
 
 import com.example.alugueiscarros.entity.Contrato;
 import com.example.alugueiscarros.entity.Pedido;
+import com.example.alugueiscarros.enums.TipoParecer;
 import com.example.alugueiscarros.repository.ContratoRepository;
 import com.example.alugueiscarros.repository.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,14 @@ public class ContratoService {
             contrato.setDataFim(contratoAtualizado.getDataFim());
             contrato.setTipoParecer(contratoAtualizado.getTipoParecer());
 
+
+            return contratoRepository.save(contrato);
+        }).orElseThrow(() -> new RuntimeException("Contrato não encontrado com id: " + id));
+    }
+
+    public Contrato executarContrato(Integer id) {
+        return contratoRepository.findById(id).map(contrato -> {
+            contrato.setTipoParecer(TipoParecer.POSITIVO);
 
             return contratoRepository.save(contrato);
         }).orElseThrow(() -> new RuntimeException("Contrato não encontrado com id: " + id));
