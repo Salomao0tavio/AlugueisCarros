@@ -7,7 +7,16 @@ module.exports = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: "#3b82f6", // Azul (mantido)
+        secondary: "#6b7280", // Cinza (mantido)
+        danger: "#ef4444", // Vermelho (mantido)
+      },
+      fontFamily: {
+        sans: ["Inter", "sans-serif"], // Fonte mantida
+      },
+    },
   },
   plugins: [],
 };

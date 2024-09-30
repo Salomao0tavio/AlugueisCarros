@@ -7,6 +7,6 @@ export interface Cliente {
   profissao: string;
   login: string;
   senha: string;
-  entidadeEmpregadora?: string; // Campo opcional
-  rendimento?: number; // Campo opcional
+  entidadeEmpregadora?: string;
+  rendimento?: number;
 }
