@@ -40,6 +40,7 @@ public class ContratoService {
             contrato.setDataInicio(contratoAtualizado.getDataInicio());
             contrato.setDataFim(contratoAtualizado.getDataFim());
             contrato.setTipoParecer(contratoAtualizado.getTipoParecer());
+            contrato.setAgente(contratoAtualizado.getAgente());
 
 
             return contratoRepository.save(contrato);

@@ -36,6 +36,7 @@ public class PedidoService {
             pedido.setData(pedidoAtualizado.getData());
             pedido.setStatus(pedidoAtualizado.getStatus());
             pedido.setCreditoAssociado(pedidoAtualizado.getCreditoAssociado());
+            pedido.setAutomovel(pedidoAtualizado.getAutomovel());
 
 
             return pedidoRepository.save(pedido);

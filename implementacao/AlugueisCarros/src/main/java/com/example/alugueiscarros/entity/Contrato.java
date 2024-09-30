@@ -31,7 +31,7 @@ public class Contrato {
 
     @OneToOne
     @JoinColumn(name = "agente_id")
-    private Agente agente;*/
+    private Agente agente;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
