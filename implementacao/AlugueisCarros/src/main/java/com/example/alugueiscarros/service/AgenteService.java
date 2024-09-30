@@ -1,9 +1,12 @@
 package com.example.alugueiscarros.service;
 
 import com.example.alugueiscarros.entity.Agente;
+import com.example.alugueiscarros.entity.Banco;
 import com.example.alugueiscarros.enums.PedidoStatus;
 import com.example.alugueiscarros.repository.AgenteRepository;
 import com.example.alugueiscarros.entity.Pedido;
+import com.example.alugueiscarros.repository.BancoRepository;
+import com.example.alugueiscarros.repository.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import jakarta.persistence.EntityNotFoundException;
@@ -13,6 +16,12 @@ public class AgenteService extends UsuarioService<Agente> {
 
     @Autowired
     private AgenteRepository agenteRepository;
+
+    @Autowired
+    private BancoRepository bancoRepository;
+
+    @Autowired
+    private PedidoRepository pedidoRepository;
 
     public Agente salvarAgente(Agente agente) {
         return agenteRepository.save(agente);
@@ -29,17 +38,24 @@ public class AgenteService extends UsuarioService<Agente> {
         return agenteRepository.save(agenteExistente);
     }
 
-    public void consultarBanco() {
-        //TODO: implementacao
+    public Banco consultarBanco(Long bancoId) {
+        return bancoRepository.findById(bancoId)
+                .orElseThrow(() -> new EntityNotFoundException("Banco não encontrado"));
     }
 
     public boolean avaliarPedido(Pedido pedido) {
-        //TODO: implementacao
-        return pedido.getStatus().equals("PENDENTE");
+        boolean aprovado = (pedido.getCliente() != null && pedido.getAutomovel() != null);
+        pedido.setStatus(aprovado ? PedidoStatus.APROVADO : PedidoStatus.REJEITADO);
+        pedidoRepository.save(pedido);
+        return aprovado;
     }
 
-    public void modificarPedido(Pedido pedido, PedidoStatus status) {
-        //TODO: implementacao
+
+    public void modificarPedido(int pedidoId, PedidoStatus status) {
+        Pedido pedido = pedidoRepository.findById(pedidoId)
+                .orElseThrow(() -> new EntityNotFoundException("Pedido não encontrado"));
+
         pedido.setStatus(status);
+        pedidoRepository.save(pedido);
     }
 }

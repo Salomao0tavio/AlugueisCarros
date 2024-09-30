@@ -30,12 +30,13 @@ public class Pedido {
     @Column(nullable = false)
     private Boolean creditoAssociado;
 
-//    @Column(nullable = false)
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
-    //private Automovel automovel;
+    @OneToOne
+    @JoinColumn(name = "automovel_id")
+    private Automovel automovel;
 
     @OneToMany(mappedBy = "pedido")
     private List<Contrato> contrato = new ArrayList<>();

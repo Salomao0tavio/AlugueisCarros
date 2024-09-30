@@ -23,7 +23,10 @@ public class AutomovelService {
 
     public Automovel modificarAutomovel(Long id, Automovel automovel) {
         Automovel automovelExistente = consultarAutomovel(id);
-        //TODO: Atualize os campos aqui
+        automovelExistente.setAno(automovel.getAno());
+        automovelExistente.setMarca(automovel.getMarca());
+        automovelExistente.setPlaca(automovel.getPlaca());
+        automovelExistente.setModelo(automovel.getModelo());
         return automovelRepository.save(automovelExistente);
     }
 
