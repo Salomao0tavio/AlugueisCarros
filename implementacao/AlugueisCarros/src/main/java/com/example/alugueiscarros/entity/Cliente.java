@@ -9,7 +9,7 @@ import java.util.List;
 @Entity
 @Data
 @Table(name = "cliente")
-public class Cliente {
+public class Cliente extends Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

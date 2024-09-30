@@ -1,6 +1,7 @@
 package com.example.alugueiscarros.controller;
 
 import com.example.alugueiscarros.entity.Agente;
+import com.example.alugueiscarros.entity.Cliente;
 import com.example.alugueiscarros.service.AgenteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/agentes")
+@RequestMapping("/agentes")
 public class AgenteController {
 
     @Autowired
@@ -30,5 +31,16 @@ public class AgenteController {
     public ResponseEntity<Agente> modificarAgente(@PathVariable Long id, @RequestBody Agente agente) {
         Agente agenteAtualizado = agenteService.modificarAgente(id, agente);
         return ResponseEntity.ok(agenteAtualizado);
+    }
+    @PostMapping("/registrar")
+    public ResponseEntity<Agente> registrar(@RequestBody Agente agente) {
+        Agente novoAgente = agenteService.registrar(agente);
+        return ResponseEntity.status(HttpStatus.CREATED).body(novoAgente);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<Agente> login(@RequestParam String login, @RequestParam String senha) {
+        Agente agente = agenteService.login(login, senha);
+        return ResponseEntity.ok(agente);
     }
 }
